@@ -1,3 +1,4 @@
+```
 create table Users (
     id serial,
     name varchar(32) not null,
@@ -213,3 +214,4 @@ WHERE id = 1;
 UPDATE payment
 SET status = 'failed'
 WHERE order_id = 3;
+```
