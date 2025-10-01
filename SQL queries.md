@@ -156,12 +156,12 @@ values (3, 'realme buds 6 pro'),
        (2, 'realme band 5');
 
 insert into Product_element(product_id, article_num, color, price)
-VALUES (1, 11, 'white', 4000),
+values (1, 11, 'white', 4000),
        (2, 21, 'black', 50000),
        (2, 22, 'white', 50000);
 
 insert into Warehouse(name, address)
-VALUES ('пункт 1', 'ул. А д.1'),
+values ('пункт 1', 'ул. А д.1'),
        ('пункт 2', 'ул. С д.2');
 
 insert into Inventory(elem_id, warehouse_id, quantity)
@@ -169,49 +169,49 @@ values (1, 1, 50),
        (2, 1, 49),
        (3, 1, 100);
 
-INSERT INTO cart (user_id, guest_token, price)
-VALUES (1, null, 1500),
+insert into cart (user_id, guest_token, price)
+values (1, null, 1500),
        (null, 'a0d9a0b0-1e59-4f2e-99ea-111111111111', 650),
        (2, null, 300);
 
-INSERT INTO cartElem (cart_id, elem_id, quantity)
-VALUES (1, 1, 2),
+insert into cartElem (cart_id, elem_id, quantity)
+values (1, 1, 2),
        (1, 2, 1),
        (2, 2, 1);
 
-INSERT INTO orders (user_id, total_price, status, delivery_method, address)
-VALUES (1, 1800, 'NEW', 'courier', 'ул. Ф д. 4'),
-       (2, 300, 'PAID', 'pickup', 'ул. Р д. 12'),
-       (3, 800, 'Cancel', 'pickup', 'ул. W д. 6');
+insert into orders (user_id, total_price, status, delivery_method, address)
+values (1, 1800, 'new', 'courier', 'ул. Ф д. 4'),
+       (2, 300, 'paid', 'pickup', 'ул. Р д. 12'),
+       (3, 800, 'cancel', 'pickup', 'ул. W д. 6');
 
-INSERT INTO orderElem (order_id, elem_id, quantity, unit_price, discount, total_price)
-VALUES (1, 1, 2, 500, 0, 1000.00),
+insert into orderElem (order_id, elem_id, quantity, unit_price, discount, total_price)
+values (1, 1, 2, 500, 0, 1000.00),
        (1, 2, 1, 800, 0, 800.00),
        (2, 2, 1, 300, 0, 300);
 
-INSERT INTO payment (id, order_id, method, status, provider, transaction_id, paid_at)
-VALUES (1, 2, 'card', 'paid', 'Mir', 'TX123456789', '2025-09-18 17:00:00+03'),
-       (2, 3, 'sbp', 'pending', 'Sberbank', 'TX987654321', NULL),
-       (3, 1, 'cash', 'failed', NULL, NULL, NULL);
+insert into payment (id, order_id, method, status, provider, transaction_id, paid_at)
+values (1, 2, 'card', 'paid', 'Mir', 'TX123456789', '2025-09-18 17:00:00+03'),
+       (2, 3, 'sbp', 'pending', 'Sberbank', 'TX987654321', null),
+       (3, 1, 'cash', 'failed', null, null, null);
 
 
-UPDATE orders
-SET status = 'CANCELED'
-WHERE id = 3;
+update orders
+set status = 'CANCELED'
+where id = 3;
 
-UPDATE product_element
-SET price = 52000
-WHERE id = 2;
+update product_element
+set price = 52000
+where id = 2;
 
-UPDATE cartElem
-SET quantity = quantity + 1
-WHERE cart_id = 1 AND elem_id = 1;
+update cartElem
+set quantity = quantity + 1
+where cart_id = 1 and elem_id = 1;
 
-UPDATE orders
-SET delivery_method = 'pickup'
-WHERE id = 1;
+update orders
+set delivery_method = 'pickup'
+where id = 1;
 
-UPDATE payment
-SET status = 'failed'
-WHERE order_id = 3;
+update payment
+set status = 'failed'
+where order_id = 3;
 ```
