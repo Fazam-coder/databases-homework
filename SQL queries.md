@@ -135,7 +135,7 @@ alter table role rename constraint role_pkey to pk_role_id;
 
 
 insert into users(name, login, password, role_id)
-VALUES ('Кемал', 'kemal@gmail.com', '228337', 2),
+values ('Кемал', 'kemal@gmail.com', '228337', 2),
        ('Булат', 'bulat@gmail.com', 'qwerty',  1),
        ('Тьютор', 'ilovemathanalysis@gmail.com', 'integrali', 1);
 
