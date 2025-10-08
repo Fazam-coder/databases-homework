@@ -3,10 +3,14 @@
   1.1 Вывести всех пользователей
 
     select * from users;
+
+  ![](images/_1.1.png)  
     
   1.2 Вывести всех пользователей с их ролями
 
     select * from users join role on users.role_id = role.id;
+
+  ![](images/_1.2.png)
 
 2. Выборка отдельных столбцов / присвоение новых имён столбцам
 
@@ -14,10 +18,14 @@
 
     select name as user_name, login from users;
 
+  ![](images/_2.1.png)  
+
   2.2 Вывести имена пользователей и название их роли
 
     select u.name as user_name, r.name as role_name from users u
     join role r on u.role_id=r.id;  
+
+  ![](images/_2.2.png)  
 
 3. Выборка данных с созданием вычисляемого столбца
 
@@ -25,10 +33,14 @@
 
     select id, price / 10 as disc from orders;
 
+  ![](images/_3.1.png)  
+
   3.2 Расчитать итоговую стоимость товаров в заказах
 
     select p.article_num, o.quantity * o.unit_price - (o.discount / 100 * o.quantity * o.unit_price) as total from orderelem o
     join product_element p on o.elem_id=p.id;  
+
+  ![](images/_3.2.png)  
 
 4.Выборка данных - математические функции
 
@@ -36,9 +48,13 @@
 
     select round(cart.price) as prc from cart;
 
+  ![](images/_4.1.png)  
+
   4.2 Вернуть округлённую цену корзины и имя владельца (right join)
 
     select users.name, round(cart.price) from cart right join users on cart.user_id=users.id;
+
+  ![](images/_4.2.png)
 
 5. Выборка данных - логические функции
   
@@ -50,6 +66,8 @@
     else unit_price
     end as price from orderelem;
 
+  ![](images/_5.1.png)
+
   5.2 В зависимости от роли выводить ее описание
 
     select users.name, case
@@ -59,12 +77,16 @@
     from users
     join role on users.role_id = role.id; 
 
+  ![](images/_5.2.png)
+
 6. Выборка данных по условию / логические операции
 
   6.1 Выбрать товары с ценой более 5000
 
     select article_num, price from product_element
     where price > 5000;
+
+  ![](images/_6.1.png)  
 
   6.2 Вывести название товара, его количество и цену если он взять в 1 штуке и цена у него меньше 5000
 
@@ -73,12 +95,16 @@
     join product on product_element.product_id = product.id
     where quantity = 1 and Product_element.price < 5000;  
 
+  ![](images/_6.2.png)
+
 7. Выборка данных BETWEEN
 
   7.1 Выбрать товар с ценой между 4000 и 50000
 
     select article_num, price from product_element
     where price between 4000 and 50000;
+
+  ![](images/_7.1.png)
 
   7.2 Вывести информацию о товаре, количество которых в диапазоне от 1 до 2.
 
@@ -87,11 +113,15 @@
     join product on product_element.product_id = product.id
     where quantity between 1 and 2;
 
+  ![](images/_7.2.png)
+
 8. Выборка данных IN
 
   8.1 Выбираем транзации наличными или сбп
 
     select transaction_id, method from payment where method in ('cash', 'sbp');
+
+  ![](images/_8.1.png)
 
   8.2 Выбираем адреса в заказах и время их создания двух типов (left join)
 
@@ -99,11 +129,15 @@
     left join orders on delivery_point.id=orders.delivery_point_id
     where method in ('pickup', 'delivery');
 
+  ![](images/_8.2.png)
+
 9. Выборка с сортировкой
 
   9.1 Выбрать заказы с ценой по убыванию
 
     select id, price from orders order by price desc;
+
+  ![](images/_9.1.png)
 
   9.2 Вывесьт элементы корзины юзера 1 с порядком убывания цены
 
@@ -112,6 +146,8 @@
     join product on product_element.product_id = product.id
     where cartelem.cart_id = 1 order by product_element.price;
 
+  ![](images/_9.2.png)
+
 10. Выборка данных - оператор LIKE
 
   10.1 Выбрать юзеров в именах которых есть "a"
@@ -119,10 +155,14 @@
     select name from users
     where name like '%а%';
 
+  ![](images/_10.1.png)
+
   10.2 Выбрать юзеров с именем длиной 6 и посмотреть их возможные роли (cross join)
 
     select users.name, role.name from users cross join role
     where users.name like '______';
+
+  ![](images/_10.2.png)
 
 11. Выбор уникальынх элементов столбца
 
@@ -130,10 +170,14 @@
 
     select distinct color from product_element;
 
+  ![](images/_11.1.png)
+
   11.2 Вывести все возможные методы доставки из заказов
 
     select distinct  delivery_point.method from orders
     join delivery_point on orders.delivery_point_id = delivery_point.id;
+
+  ![](images/_11.2.png)
 
 12. Выбор ограниченного количества возвращаемых строк
 
@@ -141,9 +185,13 @@
 
     select name from users order by name limit 2 offset 1;
     
+  ![](images/_12.1.png)
+  
   12.2 Выбрать 2 и 3 адрес доставки из заказов (заказы выводятся даже если не выбран адрес, адреса также выводятся) (full join)
   
     select address, orders.created_at from delivery_point
     full join orders on delivery_point.id=orders.delivery_point_id
     order by orders.created_at
     limit 2 offset 1;
+
+  ![](images/_12.2.png)  
