@@ -93,7 +93,7 @@
     select product.name, orderelem.quantity, Product_element.price from orderelem
     join product_element on orderelem.elem_id=product_element.id
     join product on product_element.product_id = product.id
-    where quantity = 1 and Product_element.price < 5000;  
+    where quantity = 1 and Product_element.price > 5000;  
 
   ![](images/_6.2.png)
 
