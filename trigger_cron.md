@@ -52,7 +52,6 @@ BEFORE UPDATE ON orders
 FOR EACH ROW
 EXECUTE FUNCTION validate_old_order();
 
--- id - 7 уже delivered
 UPDATE orders
 SET status = 'processing'
 WHERE id = 7 and status = 'delivered';
@@ -155,7 +154,6 @@ UPDATE payment
 SET status = 'completed', paid_at = NOW()
 WHERE order_id = 1 AND status = 'pending';
 
--- Проверка изменения статуса
 SELECT id, status FROM orders WHERE id = 1;
 ```
 
@@ -218,7 +216,6 @@ BEFORE INSERT ON users
 FOR EACH STATEMENT
 EXECUTE FUNCTION check_insert_quota();
 
--- Тестирование триггера (вызов)
 INSERT INTO users (name, login, password, role_id)
 VALUES
     ('User1', 'user1', 'pass123', 1),
@@ -270,7 +267,6 @@ CREATE FUNCTION prevent_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     RAISE EXCEPTION 'Cannot delete orders';
-    RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -311,7 +307,6 @@ VALUES
     (1, 54321, 'green', 150),
     (2, 54322, 'blue', 200);
 
--- Проверка логирования
 SELECT * FROM system_log WHERE action = 'BATCH_INSERT' ORDER BY timestamp DESC LIMIT 3;
 ```
 
@@ -411,7 +406,6 @@ ORDER BY trigger_name;
 ```sql
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
--- Создание крона
 SELECT cron.schedule('cleanup_old_carts', '0 2 * * *',
 $$DELETE FROM cart
 WHERE created_at < NOW() - INTERVAL '30 days'
