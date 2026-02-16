@@ -9,7 +9,7 @@
     update orders set price = price + 52000 where id = 1;
     commit;
 
-![](images/4_1.png)
+![](s1/images/4_1.png)
 
 1.1b Добавьте новый пункт доставки и попробуйте изменить заказ
 Итог — изменения сохранены.
@@ -27,8 +27,8 @@
     AND warehouse_id = 2;
     COMMIT;
 
-![](images/4_1b_1.png)
-![](images/4_1b_2.png)
+![](s1/images/4_1b_1.png)
+![](s1/images/4_1b_2.png)
 
 2. Rollback
 
@@ -41,7 +41,7 @@
     update orders set price = price + 52000 where id = 1;
     rollback;
 
-![](images/4_2.png)
+![](s1/images/4_2.png)
 
 2.1b Добавьте новый пункт доставки и попробуйте изменить заказ, затем выполните откат.
 Итог - данные не обновились
@@ -59,8 +59,8 @@
     AND warehouse_id = 2;
     rollback;
 
-![](images/4_2b_1.png)
-![](images/4_2b_2.png)
+![](s1/images/4_2b_1.png)
+![](s1/images/4_2b_2.png)
 
 3. Неявный вызов rollback
 
@@ -73,7 +73,7 @@
     update orders set price = price + 52000 where id = 1;
     commit;
 
-![](images/4_3.png)
+![](s1/images/4_3.png)
 
 3.1b При попытке добавить пользователя возникла ошибка. Итог — пользователь не был добавлен.
 Итог - данные не сохранились из-за ошибки.
@@ -83,7 +83,7 @@
     values ('Тест', 'test_login', 'pass', now(), 1/0);
     commit;
 
-![](images/4_3b.png)
+![](s1/images/4_3b.png)
 
 4. Dirty read (read uncomitted)
 
@@ -97,7 +97,7 @@
     select price from orders where id = 1;
     commit;
 
-![](images/4_4.png)
+![](s1/images/4_4.png)
 
 4.1b Один пользователь обновляет количество товара в корзине, другой параллельно читает это значение. (параллельно) Итог вывелись старые данные, после коммит 1 и заново вызова второго данные новые
 
@@ -108,7 +108,7 @@
     select *, CURRENT_TIMESTAMP from cartElem;
     commit;
 
-![](images/4_4b.png)
+![](s1/images/4_4b.png)
 
 5. Non-repeatable read (read commited)
 
@@ -123,7 +123,7 @@
     select price from orders where id = 1;
     select price from orders where id = 1;
 
-![](images/4_5.png)
+![](s1/images/4_5.png)
 
 5.1b Изменили роль пользователя, потом селектим ее.
 
@@ -142,8 +142,8 @@
     SELECT role_id from users where id=1;
     commit; --- значение изменилось
 
-![](images/4_5b_1.png)
-![](images/4_5b_2.png)
+![](s1/images/4_5b_1.png)
+![](s1/images/4_5b_2.png)
 
 6. (НЕ) Phantom read (repeatable read)
 
@@ -159,7 +159,7 @@
     begin;
     select price from orders;
 
-![](images/4_6.png)
+![](s1/images/4_6.png)
 
 6.1b Один пользователь добавляет новый элемент в заказ, другой параллельно делает селекты.
 
@@ -178,7 +178,7 @@
 
 2-й SELECT, при REPEATABLE READ покажет то же значение
 
-![](images/4_6b.png)
+![](s1/images/4_6b.png)
 
 7. Serializable
 
@@ -193,7 +193,7 @@
     update orderelem set quantity = quantity + 1 where id = 12;
     select quantity from orderelem where id = 12;
 
-![](images/4_7.png)
+![](s1/images/4_7.png)
 
 7.1b Два пользователя пытаются одновременно забронировать одинаковый элемент в корзине. Вставка произошла только одна, другая ошибка.
 
@@ -206,7 +206,7 @@
     SELECT quantity FROM cartElem WHERE id = 1;
     COMMIT;
 
-![](images/4_7b.png)
+![](s1/images/4_7b.png)
 
 8. Savepoint
 
@@ -233,9 +233,9 @@
     select price from orders where id = 4;
     commit;
 
-![](images/4_81.png)
+![](s1/images/4_81.png)
 
-![](images/4_82.png)
+![](s1/images/4_82.png)
 
 8.1b Перемещение товара с двух промежуточных точек откатом к разным savepoint.
 
@@ -265,6 +265,6 @@
 
 В первом случае осталось ток первое обновление, во втором случае ток первое и второе обновление
 
-![](images/4_8b_1.png)
-![](images/4_8b_2.png)
-![](images/4_8b_3.png)
+![](s1/images/4_8b_1.png)
+![](s1/images/4_8b_2.png)
+![](s1/images/4_8b_3.png)

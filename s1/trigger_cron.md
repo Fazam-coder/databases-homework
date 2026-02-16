@@ -27,7 +27,7 @@ INSERT INTO product_element (product_id, article_num, color, price, attributes)
 VALUES (1, 12345, 'red', -100, '{"size": "M"}');
 ```
 
-![](images/6/1.png)
+![](s1/images/6/1.png)
 
 ---
 
@@ -57,7 +57,7 @@ SET status = 'processing'
 WHERE id = 7 and status = 'delivered';
 ```
 
-![](images/6/2.png)
+![](s1/images/6/2.png)
 
 ---
 
@@ -87,7 +87,7 @@ WHERE elem_id = 1 AND warehouse_id = 1;
 SELECT * FROM audit_log WHERE action = 'BEFORE_DELETE' ORDER BY timestamp DESC LIMIT 5;
 ```
 
-![](images/6/3.png)
+![](s1/images/6/3.png)
 
 ---
 
@@ -123,8 +123,8 @@ VALUES (3, 6, 2, 50.00);
 SELECT id, price FROM orders WHERE id = 3;
 ```
 
-![](images/6/4.png)
-![](images/6/5.png)
+![](s1/images/6/4.png)
+![](s1/images/6/5.png)
 
 ---
 
@@ -157,7 +157,7 @@ WHERE order_id = 1 AND status = 'pending';
 SELECT id, status FROM orders WHERE id = 1;
 ```
 
-![](images/6/6.png)
+![](s1/images/6/6.png)
 
 ---
 
@@ -193,7 +193,7 @@ DELETE FROM cartelem WHERE cart_id = 1 AND elem_id = 1;
 SELECT id, price FROM cart WHERE id = 1;
 ```
 
-![](images/6/7.png)
+![](s1/images/6/7.png)
 
 ---
 
@@ -223,7 +223,7 @@ VALUES
     ('User3', 'user3', 'pass789', 1);
 ```
 
-![alt text](images/6/8.png)
+![alt text](s1/images/6/8.png)
 
 ---
 
@@ -253,7 +253,7 @@ WHERE category_id = 1;
 SELECT id, name FROM product WHERE category_id = 1 LIMIT 5;
 ```
 
-![](images/6/9.png)
+![](s1/images/6/9.png)
 
 ---
 
@@ -278,7 +278,7 @@ EXECUTE FUNCTION prevent_delete();
 DELETE FROM orders WHERE id = 999;
 ```
 
-![](images/6/10.png)
+![](s1/images/6/10.png)
 
 ---
 
@@ -310,7 +310,7 @@ VALUES
 SELECT * FROM system_log WHERE action = 'BATCH_INSERT' ORDER BY timestamp DESC LIMIT 3;
 ```
 
-![](images/6/11.png)
+![](s1/images/6/11.png)
 
 ---
 
@@ -342,7 +342,7 @@ WHERE price > 5000 AND user_id IS NOT NULL;
 SELECT * FROM cart_archive ORDER BY archived_at DESC LIMIT 5;
 ```
 
-![](images/6/12.png)
+![](s1/images/6/12.png)
 
 ---
 
@@ -372,7 +372,7 @@ WHERE warehouse_id = 1;
 SELECT COUNT(*) AS remaining_inventory FROM inventory;
 ```
 
-![](images/6/13.png)
+![](s1/images/6/13.png)
 
 ---
 
@@ -393,7 +393,7 @@ WHERE trigger_schema = 'public'
 ORDER BY trigger_name;
 ```
 
-![](images/6/14.png)
+![](s1/images/6/14.png)
 
 ---
 
@@ -418,7 +418,7 @@ AND user_id IS NULL;
 SELECT COUNT(*) AS remaining_carts FROM cart;
 ```
 
-![](images/6/15.png)
+![](s1/images/6/15.png)
 
 ---
 
@@ -447,7 +447,7 @@ AND id NOT IN (
 SELECT status, COUNT(*) FROM orders GROUP BY status;
 ```
 
-![](images/6/16.png)
+![](s1/images/6/16.png)
 
 ---
 
@@ -484,7 +484,7 @@ WHERE quantity > 0;
 SELECT * FROM inventory WHERE quantity > 0 LIMIT 10;
 ```
 
-![](images/6/17.png)
+![](s1/images/6/17.png)
 
 ---
 
@@ -503,7 +503,7 @@ FROM cron.job
 ORDER BY jobid;
 ```
 
-![](images/6/18.png)
+![](s1/images/6/18.png)
 
 ---
 
@@ -517,4 +517,4 @@ ORDER BY start_time DESC
 LIMIT 10;
 ```
 
-![](images/6/19.png)
+![](s1/images/6/19.png)

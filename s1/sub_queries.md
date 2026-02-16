@@ -5,14 +5,14 @@
     select name, (select count(*) from product_element pe where pe.product_id = p.id) as cnt
     from product p;
 
-![](images/2_1_1.png)
+![](s1/images/2_1_1.png)
 
 1.2 Для каждого пользователя (users) выведи его имя и общее количество сделанных им заказов.﻿)
 
     select users.name, (select count(*) from orders where orders.user_id = users.id) as cnt
     from users;
 
-![](images/2_1_2.png)
+![](s1/images/2_1_2.png)
 
 1.3 Вывести список всех пользователей с их последним заказом (дата и статус), если заказ был сделан.
 ```
@@ -22,7 +22,7 @@ select u.name, u.login,
 from users u;
 ```
 
-![](images/2_1_3.png)
+![](s1/images/2_1_3.png)
 
 2. FROM
 
@@ -31,7 +31,7 @@ from users u;
     select t.user_id, t.total_sum
     from (select user_id, sum(orders.price) as total_sum from orders group by user_id) t;
 
-![](images/2_2_1.png)
+![](s1/images/2_2_1.png)
 
 2.2 Все заказы, сделанные пользователями с ролью 'admin', используя подзапрос для создания временной
 таблицы с ID администраторов.
@@ -39,7 +39,7 @@ from users u;
     select * from orders join (select users.id from users join role on users.role_id = role.id
     where role.name = 'ADMIN') AS admin_users ON admin_users.id = orders.user_id;
 
-![](images/2_2_2.png)
+![](s1/images/2_2_2.png)
 
 2.3 Показать склады и общее количество товаров на каждом.
 ```
@@ -52,7 +52,7 @@ join (
 ) as stock on w.id = stock.warehouse_id;
 ```
 
-![](images/2_2_3.png)
+![](s1/images/2_2_3.png)
 
 3. WHERE
 
@@ -60,14 +60,14 @@ join (
 
     select u.name from users u where u.id in (select o.user_id from orders o);
 
-![](images/2_3_1.png)
+![](s1/images/2_3_1.png)
 
 3.2 Покажи все товары (product), которые принадлежат категориям, в названии которых есть слово 'Phone')
 
     select * from product where category_id IN (select category.id from category
     where category.name = 'Phone');
 
-![](images/2_3_2.png)
+![](s1/images/2_3_2.png)
 
 3.3 Найти всех пользователей, которые делали заказы на сумму больше, чем средняя сумма всех заказов.
 ```
@@ -76,7 +76,7 @@ from users u join orders o on u.id = o.user_id
 where o.price > (select avg(price) from orders);
 ```
 
-![](images/2_3_3.png)
+![](s1/images/2_3_3.png)
 
 4. HAVING
 
@@ -88,7 +88,7 @@ where o.price > (select avg(price) from orders);
     group by c.name
     having avg(pe.price) > (select min(pee.price) from product_element pee);
 
-![](images/2_4_1.png)
+![](s1/images/2_4_1.png)
 
 4.2 Найди ID категорий, в которых количество товаров больше или равно, чем среднее
 количество товаров по всем категориям.
@@ -98,7 +98,7 @@ where o.price > (select avg(price) from orders);
     FROM (SELECT COUNT(id) AS product_count
     FROM product GROUP BY category_id) AS counts_per_category);
 
-![](images/2_4_2.png)
+![](s1/images/2_4_2.png)
 
 4.3 Заказы, у которых количество позиций выше среднего числа позиций в заказе.
 ```
@@ -114,7 +114,7 @@ having count(oe.elem_id) > (
 );
 ```
 
-![](images/2_4_3.png)
+![](s1/images/2_4_3.png)
 
 5. ALL
 
@@ -123,7 +123,7 @@ having count(oe.elem_id) > (
     select article_num from product_element
     where price > all (select price from product_element where article_num::text like '1%');
 
-![](images/2_5_1.png)
+![](s1/images/2_5_1.png)
 
 5.2 Найди все товарные элементы (product_element),
 цена которых строго выше цены каждого элемента, принадлежащего продукту с ID 10)
@@ -131,7 +131,7 @@ having count(oe.elem_id) > (
     SELECT * FROM product_element WHERE price >
     ALL (SELECT price FROM product_element WHERE product_id = 1);
 
-![](images/2_5_2.png)
+![](s1/images/2_5_2.png)
 
 5.3 Склады, где количество каждого элемента больше, чем на любом другом складе.
 ```
@@ -144,7 +144,7 @@ where i.quantity > all (
 );
 ```
 
-![](images/2_5_3.png)
+![](s1/images/2_5_3.png)
 
 6. IN
 
@@ -153,13 +153,13 @@ where i.quantity > all (
     select article_num from product_element
     where price in (select price from product_element where article_num::text like '2%');
 
-![](images/2_6_1.png)
+![](s1/images/2_6_1.png)
 
 6.2 Покажи имена пользователей (users), которые сделали хотя бы один заказ.
 
     select name from users where users.id in (select user_id from orders);
 
-![](images/2_6_2.png)
+![](s1/images/2_6_2.png)
 
 6.3 Заказы с хотя бы одним элементом, имеющимся на складе.
 ```
@@ -170,7 +170,7 @@ where oe.elem_id in (
 );
 ```
 
-![](images/2_6_3.png)
+![](s1/images/2_6_3.png)
 
 7. ANY
 
@@ -179,7 +179,7 @@ where oe.elem_id in (
     select article_num, price from product_element
     where price > any (select price from product_element where article_num::text like '2%');
 
-![](images/2_7_1.png)
+![](s1/images/2_7_1.png)
 
 7.2 Найди товары (product_element), цена которых больше, чем цена хотя бы одного товара
 на складе (warehouse) с названием 'пункт 1')
@@ -188,7 +188,7 @@ where oe.elem_id in (
     join inventory i on p.id = i.elem_id join warehouse w on i.warehouse_id = w.id
     where w.name = 'пункт 1');
 
-![](images/2_7_2.png)
+![](s1/images/2_7_2.png)
 
 7.3 Пользователи с хотя бы одним заказом со статусом “CANCELED”.
 ```
@@ -200,7 +200,7 @@ where u.id = any (
 );
 ```
 
-![](images/2_7_3.png)
+![](s1/images/2_7_3.png)
 
 8. EXIST
 
@@ -209,7 +209,7 @@ where u.id = any (
     select pe.article_num, pe.price from product_element pe
     where exists (select 1 from orderelem o where product_id = pe.id);
 
-![](images/2_8_1.png)
+![](s1/images/2_8_1.png)
 
 8.2 Найди всех пользователей (users), у которых есть хотя бы один заказ
 со статусом 'PAID')
@@ -217,7 +217,7 @@ where u.id = any (
     SELECT id, name FROM users u WHERE EXISTS (SELECT 1 FROM orders o
     WHERE o.user_id = u.id AND o.status = 'PAID');
 
-![](images/2_8_2.png)
+![](s1/images/2_8_2.png)
 
 8.3 Показать все товары, которые кто-то когда-то заказывал.
 ```
@@ -229,7 +229,7 @@ where exists (
 );
 ```
 
-![](images/2_8_3.png)
+![](s1/images/2_8_3.png)
 
 9. Сравнение по нескольким столбцам
 
@@ -239,7 +239,7 @@ where exists (
     where (article_num, price) in (select article_num, price from product_element
     where article_num::text like '2%' and price > 50000);
 
-![](images/2_9_1.png)
+![](s1/images/2_9_1.png)
 
 9.2 Найди позиции в корзине (cartitem), которые полностью совпадают по ID
 товарного элемента и количеству с какой-либо позицией в заказе с ID 1)
@@ -247,7 +247,7 @@ where exists (
     SELECT * FROM cartelem c WHERE (c.elem_id, c.quantity) IN (SELECT elem_id,
     quantity FROM orderelem WHERE order_id = 1);
 
-![](images/2_9_2.png)
+![](s1/images/2_9_2.png)
 
 9.3 Найти заказы, которые полностью повторяют состав корзины какого-либо пользователя (по elem_id и quantity).
 ```
@@ -259,7 +259,7 @@ where (oe.elem_id, oe.quantity) in (
 );
 ```
 
-![](images/2_9_3.png)
+![](s1/images/2_9_3.png)
 
 10. Коррелированные подзапросы
 
@@ -267,14 +267,14 @@ where (oe.elem_id, oe.quantity) in (
 
     select name, (select count(*) from product_element pe where pe.product_id = p.id) as cnt from product p;
 
-![](images/2_10_1.png)
+![](s1/images/2_10_1.png)
 
 10.2 Для каждого заказа (orders) выведи его ID и стоимость, а также среднюю
 стоимость всеx заказов, сделанных тем же самым пользователем.
 
     select id, price, (select avg(o.price) from orders o where o.user_id = user_id) from orders;
 
-![](images/2_10_2.png)
+![](s1/images/2_10_2.png)
 
 10.3 Найди все товарные элементы (product_element), цена которых является максимальной среди всех элементов,
 относящихся к тому же самому головному товару (product).
@@ -282,7 +282,7 @@ where (oe.elem_id, oe.quantity) in (
     select * from product_element p1 where p1.price > (select max(p2.price)
     from product_element p2 where p1.id != p2.id and p2.product_id = p1.product_id)
 
-![](images/2_10_3.png)
+![](s1/images/2_10_3.png)
 
 10.4 Для каждого товара вывести его название и цену самого дорогого элемента.
 ```
@@ -291,7 +291,7 @@ select p.name,
      where pe.product_id = p.id) as max_element_price
 from product p;
 ```
-![](images/2_10_4.png)
+![](s1/images/2_10_4.png)
 
 10.5 Элементы, которые есть в наличии хотя бы на одном складе
 ```
@@ -302,4 +302,4 @@ where exists (
 );
 ```
 
-![](images/2_10_5.png)
+![](s1/images/2_10_5.png)
