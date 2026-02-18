@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   postgres:
-    image: postgres:15
+    build: .
     container_name: pg_course
     environment:
       POSTGRES_DB: shopdb
@@ -12,6 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - ./full_dmp.sql:/docker-entrypoint-initdb.d/full_dmp.sql
 
   flyway:
     image: flyway/flyway
@@ -23,7 +22,7 @@ services:
     volumes:
       - ./db/migrations:/flyway/sql
     environment:
-      FLYWAY_URL: jdbc:postgresql://postgres:5432/course_db
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/shopdb
       FLYWAY_USER: admin
       FLYWAY_PASSWORD: admin_pass
       FLYWAY_BASELINE_VERSION: 1
