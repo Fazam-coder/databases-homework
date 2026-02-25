@@ -40,9 +40,12 @@ WHERE created_at = '2025-12-02'::timestamptz;
 * С индексом hash
   ![](images/2_9.png)
 
-## Использование "like%" payment
+## Использование "%like" payment
 ``` sql
-EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT) SELECT id, action, table_name, timestamp FROM audit_log WHERE table_name LIKE '%log';
+EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT) 
+SELECT id, action, table_name, timestamp 
+FROM audit_log 
+WHERE table_name LIKE '%log';
 ```
 * Без индекса
   ![](images/2_10.png)
