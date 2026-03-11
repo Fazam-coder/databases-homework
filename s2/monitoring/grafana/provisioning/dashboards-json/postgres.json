@@ -1,0 +1,104 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "PostgreSQL Version",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [{"expr": "pg_version_num", "legendFormat": "{{version}}", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}]}
+        }
+      }
+    },
+    {
+      "title": "Active Sessions",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 6, "y": 0},
+      "targets": [{"expr": "pg_active_sessions{state!=\"idle\"}", "legendFormat": "{{state}}", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"axisLabel": "Sessions", "drawStyle": "line", "fillOpacity": 10}
+        }
+      }
+    },
+    {
+      "title": "SELECT Queries/sec",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 4},
+      "targets": [{"expr": "rate(pg_query_stats_total_calls{query_type=\"select\"}[5m])", "legendFormat": "SELECT", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "blue", "mode": "fixed"},
+          "custom": {"axisLabel": "queries/sec", "drawStyle": "line"}
+        }
+      }
+    },
+    {
+      "title": "INSERT Queries/sec",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 4},
+      "targets": [{"expr": "rate(pg_query_stats_total_calls{query_type=\"insert\"}[5m])", "legendFormat": "INSERT", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "green", "mode": "fixed"},
+          "custom": {"axisLabel": "queries/sec", "drawStyle": "line"}
+        }
+      }
+    },
+    {
+      "title": "DELETE Queries/sec",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 4},
+      "targets": [{"expr": "rate(pg_query_stats_total_calls{query_type=\"delete\"}[5m])", "legendFormat": "DELETE", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"fixedColor": "red", "mode": "fixed"},
+          "custom": {"axisLabel": "queries/sec", "drawStyle": "line"}
+        }
+      }
+    },
+    {
+      "title": "Average CPU Usage",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 12},
+      "targets": [{"expr": "avg(rate(process_cpu_seconds_total[5m]) * 100)", "legendFormat": "CPU %", "refId": "A"}],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"axisLabel": "CPU %", "drawStyle": "line", "fillOpacity": 20},
+          "unit": "percent"
+        },
+        "overrides": [{"matcher": {"id": "byName", "options": "CPU %"}, "properties": [{"id": "color", "value": {"fixedColor": "orange", "mode": "fixed"}}]}]
+      },
+      "thresholds": {
+        "steps": [
+          {"color": "green", "value": null},
+          {"color": "yellow", "value": 70},
+          {"color": "red", "value": 90}
+        ]
+      }
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["postgres", "monitoring"],
+  "templating": {"list": []},
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {},
+  "timezone": "",
+  "title": "PostgreSQL Monitoring Dashboard",
+  "uid": "postgres-monitoring",
+  "version": 1,
+  "weekStart": ""
+}

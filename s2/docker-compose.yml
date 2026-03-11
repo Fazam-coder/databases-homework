@@ -40,5 +40,61 @@ services:
     depends_on:
       - postgres
 
+  postgres_exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: postgres_exporter
+    environment:
+      # Используем ваши существующие креды
+      DATA_SOURCE_NAME: "postgresql://admin:admin_pass@postgres:5432/shopdb?sslmode=disable"
+    volumes:
+      - ./monitoring/queries.yaml:/queries.yaml:ro
+    command:
+      - "--extend.query-path=/queries.yaml"
+      - "--collector.stat_statements"
+      - "--collector.stat_user_tables"
+      - "--collector.stat_user_indexes"
+      - "--collector.pg_stat_activity"
+    ports:
+      - "9187:9187"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prom_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"  # Для перезагрузки конфига без рестарта
+    depends_on:
+      - postgres_exporter
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Смените при первом входе!
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
 volumes:
   pg_data:
+  prom_data:
+  grafana_data:
