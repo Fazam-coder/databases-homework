@@ -1,3 +1,5 @@
+# Архитектура
+![](images/6_12.png)
 # Настройка потоковых репликаций
 ![](images/6_1.png)
 ```sql
@@ -9,7 +11,7 @@ SELECT pg_create_physical_replication_slot('replica2_slot');
 ```
 ![](images/6_2.png)
 
-Настройка реплики (на примере 2)
+# Настройка physical streaming replication (на примере 2)
 
 ```shell
 docker-compose -f docker-compose.replication.yml exec postgres_master pg_basebackup
@@ -23,6 +25,7 @@ docker-compose -f docker-compose.replication.yml up -d postgres_replica2
 ```
 ![](images/6_3.png)
 
+# Проверка репликации данных: вставка данных на master и на реплики
 ```sql
 CREATE TABLE IF NOT EXISTS test_replication (
     id SERIAL PRIMARY KEY,
@@ -38,6 +41,7 @@ docker-compose -f docker-compose.replication.yml exec postgres_replica1 psql -U 
 ```
 ![](images/6_4.png)
 
+# Анализ replication lag
 ```sql
 SELECT
     'BEFORE_LOAD' AS stage,
@@ -68,6 +72,7 @@ FROM pg_stat_replication;
 ```
 ![](images/6_5.png)
 
+# Настройка Logical replication
 ```sql
 -- На обоих
 CREATE TABLE IF NOT EXISTS logical_test (
@@ -85,7 +90,7 @@ CREATE SUBSCRIPTION shopdb_sub
     CONNECTION 'host=postgres_master dbname=shopdb user=admin password=admin_pass'
     PUBLICATION shopdb_pub;
 ```
-Данные реплицируются
+## Данные реплицируются
 ```sql
 -- На ведущей
 INSERT INTO logical_test (name, value) 
@@ -94,13 +99,13 @@ VALUES ('Row 1', 100), ('Row 2', 200), ('Row 3', 300);
 SELECT * FROM logical_test;
 ```
 ![](images/6_6.png)
-DDL не реплицируется
+## DDL не реплицируется
 ```sql
 -- На ведущей
 ALTER TABLE logical_test ADD COLUMN test_column VARCHAR(100);
 ```
 ![](images/6_7.png)
-REPLICA IDENTITY
+# Проверка REPLICA IDENTITY
 ```sql
 CREATE TABLE IF NOT EXISTS no_pk_table (
     name VARCHAR(100),
@@ -126,7 +131,7 @@ ALTER TABLE no_pk_table REPLICA IDENTITY FULL;
 UPDATE no_pk_table SET value = 300 WHERE name = 'Test';
 ```
 ![](images/6_9.png)
-Проверка replication status
+# Проверка replication status
 ```sql
 -- На ведущей
 SELECT pubname, puballtables, pubinsert, pubupdate, pubdelete
@@ -143,7 +148,7 @@ FROM pg_subscription_rel;
 ```
 ![](images/6_11.png)
 
-pg_dump/pg_restore для логической репликации:
+# pg_dump/pg_restore для логической репликации:
 - Синхронизация схемы (DDL)
 - Начальная синхронизация
 - Бэкап без нагрузки на ведущую репликацию
