@@ -1,0 +1,9 @@
+{
+  "mappings": {
+    "properties": {
+      "title": { "type": "text", "analyzer": "russian" },
+      "price": { "type": "float" },
+      "available": { "type": "boolean" }
+    }
+  }
+}

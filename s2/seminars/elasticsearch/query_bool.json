@@ -1,0 +1,12 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "title": "видеокарта" } }
+      ],
+      "filter": [
+        { "term": { "available": true } }
+      ]
+    }
+  }
+}
