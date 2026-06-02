@@ -1,0 +1,42 @@
+[
+  {
+    "id": 101,
+    "name": "Александр Петров",
+    "login": "alex.petrov@test.com",
+    "password": "hash_password_101_abc",
+    "created_at": "2026-03-15 10:30:00+03",
+    "role_id": 1
+  },
+  {
+    "id": 102,
+    "name": "Мария Сидорова",
+    "login": "mariya.sid@test.com",
+    "password": "hash_password_102_def",
+    "created_at": "2026-04-01 14:15:30+03",
+    "role_id": 2
+  },
+  {
+    "id": 103,
+    "name": "Иван Иванов",
+    "login": "ivan.ivanov@test.com",
+    "password": "hash_password_103_ghi",
+    "created_at": "2026-04-12 08:05:00+03",
+    "role_id": 2
+  },
+  {
+    "id": 104,
+    "name": "Елена Кузнецова",
+    "login": "elena.kuz@test.com",
+    "password": "hash_password_104_jkl",
+    "created_at": "2026-05-20 18:45:12+03",
+    "role_id": 1
+  },
+  {
+    "id": 105,
+    "name": "Дмитрий Смирнов",
+    "login": "dmitry.sm@test.com",
+    "password": "hash_password_105_mno",
+    "created_at": "2026-05-28 11:22:00+03",
+    "role_id": 2
+  }
+]
